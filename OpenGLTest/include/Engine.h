@@ -10,6 +10,9 @@
 
 #include <map>
 #include <string>
+#include <codecvt>
+#include <locale>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

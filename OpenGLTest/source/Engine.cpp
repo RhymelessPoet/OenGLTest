@@ -71,29 +71,41 @@ void Engine::setFontTexture(const char *fontPath)
     if(FT_New_Face(ft, fontPath, 0, &face))
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
     // set size to load glyphs as
-    FT_Set_Pixel_Sizes(face, 0, 128);
+    FT_Set_Pixel_Sizes(face, 0, 256);
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // 禁用字节对齐限制
     
-    for(GLubyte c = 0; c < 128; c++)
+    std::u16string chars = u"一人口大呈现藏";
+    uint32_t c;
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    for(uint32_t i = 0; i < 1280; i++)
     {
-        std::cout << c << std::endl;
-//        if(c == '@' || c == 'W'){
+        if(i < 7){
+            c = chars[i];
+        } else{
+            c = i;
+        }
+        std::cout << i << ": " << chars[i] << std::endl;
+//        if(c == '@' || c == 'W'|| c == '&' || c == '>' || c == '^' || c == 'n'){
 //            continue;
 //        }
+       
         // 加载字符的字形 glyph
         if(FT_Load_Char(face, c, FT_LOAD_RENDER))
-//        if(FT_Load_Glyph(face, c, FT_LOAD_RENDER))
         {
             std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
         }
-        std::cout << "before rendering: " << face->glyph->bitmap.rows << std::endl;
+        std::chrono::duration<double> timeLoaded = std::chrono::steady_clock::now() - start;
+        std::cout << "Load Time is " << timeLoaded.count() << std::endl;
+//        std::cout << "before rendering: " << face->glyph->bitmap.rows << std::endl;
         if(FT_Render_Glyph(face->glyph, FT_RENDER_MODE_SDF)){
             std::cout << "ERROR::FREETYTPE: Failed to render SDF" << std::endl;
             continue;
         }
-        std::cout << "after rendering: " << face->glyph->bitmap.rows << std::endl;
+        std::chrono::duration<double> timeUsed = std::chrono::steady_clock::now() - start;
+        std::cout << "Render Time is " << timeUsed.count() << std::endl;
+//        std::cout << "after rendering: " << face->glyph->bitmap.rows << std::endl;
         GLuint texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
@@ -107,7 +119,7 @@ void Engine::setFontTexture(const char *fontPath)
 //            std::cout << std::endl;
 //        }
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
-        
+
         // 设置纹理选项
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

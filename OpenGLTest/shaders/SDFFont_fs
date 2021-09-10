@@ -11,7 +11,8 @@ void main()
 {
     vec3 color = texture(textureColor, TexCoords).rgb;
     float sd = texture(texTure, TexCoords).r;
-    //sd = max(min(1.0, sd+0.5), 0.0);
-    FragColor =  vec4(sd, sd, sd, 1.0f);
+    //sd = max(min(1.0, sd), 0.0);
+    float body = smoothstep(0.375, 0.625, sd);
+    FragColor =  vec4(body, body, body, body);
 }
 

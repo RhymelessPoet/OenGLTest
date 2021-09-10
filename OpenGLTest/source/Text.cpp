@@ -10,7 +10,6 @@
 Text::Text(std::u32string str32)
 {
     std::string str = std::wstring_convert< std::codecvt_utf8<char32_t>, char32_t >{}.to_bytes(str32);
-    
 }
 
 Text::Text(std::string str)
