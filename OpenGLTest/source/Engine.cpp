@@ -10,6 +10,8 @@
 #include <iostream>
 #include <cmath>
 #include "stb_image.h"
+#include "stb_image_write.h"
+#include "stb_image_resize.h"
 
 Engine::Engine()
 {
@@ -53,6 +55,34 @@ bool Engine::init(Shader * changeShader)
     return false;
 }
 
+char* char_utf32_to_utf8(char32_t utf32, const char* buffer)
+// Encodes the UTF-32 encoded char into a UTF-8 string.
+// Stores the result in the buffer and returns the position
+// of the end of the buffer
+// (unchecked access, be sure to provide a buffer that is big enough)
+{
+    char* end = const_cast<char*>(buffer);
+    if(utf32 < 0x7F) *(end++) = static_cast<unsigned>(utf32);
+    else if(utf32 < 0x7FF) {
+        *(end++) = 0b1100'0000 + static_cast<unsigned>(utf32 >> 6);
+        *(end++) = 0b1000'0000 + static_cast<unsigned>(utf32 & 0b0011'1111);
+    }
+    else if(utf32 < 0x10000){
+        *(end++) = 0b1110'0000 + static_cast<unsigned>(utf32 >> 12);
+        *(end++) = 0b1000'0000 + static_cast<unsigned>((utf32 >> 6) & 0b0011'1111);
+        *(end++) = 0b1000'0000 + static_cast<unsigned>(utf32 & 0b0011'1111);
+    } else if(utf32 < 0x110000) {
+        *(end++) = 0b1111'0000 + static_cast<unsigned>(utf32 >> 18);
+        *(end++) = 0b1000'0000 + static_cast<unsigned>((utf32 >> 12) & 0b0011'1111);
+        *(end++) = 0b1000'0000 + static_cast<unsigned>((utf32 >> 6) & 0b0011'1111);
+        *(end++) = 0b1000'0000 + static_cast<unsigned>(utf32 & 0b0011'1111);
+    } else {
+        std::cout << "Encode Error!" << std::endl;
+    }
+    *end = '\0';
+    return end;
+}
+
 void Engine::setFontTexture(const char *fontPath)
 {
     glEnable(GL_CULL_FACE);
@@ -71,53 +101,52 @@ void Engine::setFontTexture(const char *fontPath)
     if(FT_New_Face(ft, fontPath, 0, &face))
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
     // set size to load glyphs as
-    FT_Set_Pixel_Sizes(face, 0, 256);
+    
+    FT_Set_Pixel_Sizes(face, 0, 200);
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // 禁用字节对齐限制
     
-    std::u16string chars = u"一人口大呈现藏";
-    uint32_t c;
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    for(uint32_t i = 0; i < 1280; i++)
+    std::u32string chars = U"!这是中文";
+    wchar_t c;
+    for(uint32_t i = 0; i < chars.size(); i++)
     {
-        if(i < 7){
-            c = chars[i];
-        } else{
-            c = i;
-        }
-        std::cout << i << ": " << chars[i] << std::endl;
-//        if(c == '@' || c == 'W'|| c == '&' || c == '>' || c == '^' || c == 'n'){
-//            continue;
-//        }
-       
+        c = chars[i];
+        const char buffer[4] {0};
+        char_utf32_to_utf8(c, buffer);
+        std::cout << i << ": " << buffer << std::endl;
+        std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
         // 加载字符的字形 glyph
-        if(FT_Load_Char(face, c, FT_LOAD_RENDER))
+        if(FT_Load_Char(face, c, FT_LOAD_NO_BITMAP))
         {
             std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
         }
         std::chrono::duration<double> timeLoaded = std::chrono::steady_clock::now() - start;
         std::cout << "Load Time is " << timeLoaded.count() << std::endl;
-//        std::cout << "before rendering: " << face->glyph->bitmap.rows << std::endl;
+        std::cout << "before rendering: " << face->glyph->bitmap.rows << std::endl;
         if(FT_Render_Glyph(face->glyph, FT_RENDER_MODE_SDF)){
             std::cout << "ERROR::FREETYTPE: Failed to render SDF" << std::endl;
             continue;
         }
         std::chrono::duration<double> timeUsed = std::chrono::steady_clock::now() - start;
         std::cout << "Render Time is " << timeUsed.count() << std::endl;
-//        std::cout << "after rendering: " << face->glyph->bitmap.rows << std::endl;
+        std::cout << "after rendering: " << face->glyph->bitmap.rows << std::endl;
         GLuint texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         GLuint width = face->glyph->bitmap.width;
         GLuint height = face->glyph->bitmap.rows;
         FT_Byte* data = (FT_Byte*)face->glyph->bitmap.buffer;
+        char path[100];
+        std::sprintf(path, "resources/bitmap_%s.tga", buffer);
+        stbi_write_tga(path, width, height, STBI_grey, data);
 //        for(int i=0; i < height; ++i){
 //            for(int j=0; j < width; ++j){
 //                printf("%x ", data[i * width + j]);
 //            }
 //            std::cout << std::endl;
 //        }
+        
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
 
         // 设置纹理选项
@@ -154,13 +183,12 @@ void Engine::initTextRender()
 
 
 
-void Engine::renderText(Text * text, glm::vec3 pos, glm::vec3 direction)
+void Engine::renderSDFText(Text * text, glm::vec3 pos, glm::vec3 fontColor, glm::vec3 outlineColor, glm::vec3 direction)
 {
     shader->useShaderProgram();
     
-    float timeValue = glfwGetTime();
-    float Time = sin(timeValue / 1.5f) / 2.0f + 0.5f;
-    shader->setUniform("Time", Time);
+    shader->setUniform("fontColor", fontColor);
+    shader->setUniform("outlineColor", outlineColor);
     
     shader->setUniform("texTure", 0);
     shader->setUniform("textureColor", 1);

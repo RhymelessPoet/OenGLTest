@@ -84,7 +84,7 @@ int main()
 //    engine->setImageTexture("resources/awesomeface.png", textTexture);
     engine->setImageTexture("resources/container.jpg", textTexture);
     
-    Text * text = new Text(U"Hello World!");
+    Text * text = new Text(U"这是中文");
     text->setTextureAll(textTexture);
     
     /* ---------------------------- Render Looping -------------------------------- */
@@ -96,7 +96,7 @@ int main()
         
         //process the input from .....
         processInput(window);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(1.0f, 1.0f, 0.9f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //engine->render(GL_TRIANGLES, vertices, sizeof(vertices), indices, sizeof(indices), texture);
         
@@ -105,7 +105,7 @@ int main()
 //        engine->renderText("3.141592653 is PI", glm::vec3(800.0f, 200.0f, 0.5f), glm::vec3(1.0f, 0.5f, 0.1f), glm::vec3(1.0, 0.0, 1.0));
 //        engine->renderText("The water of the Yellow River comes from the sky.", glm::vec3(10.0f, 350.0f, 0.5f), glm::vec3(.0f, 0.1f, 1.0f), glm::vec3(1.0, -1.0, 1.0));
         
-        engine->renderText(text, glm::vec3(100.0f, 100.0f, 5.0f));
+        engine->renderSDFText(text, glm::vec3(10.0f, 100.0f, 100.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         
         //update window screen
         glfwSwapBuffers(window);

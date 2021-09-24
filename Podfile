@@ -8,7 +8,7 @@ end
 target 'OpenGLTest' do
   
   # Comment the next line if you don't want to use dynamic frameworks
-  # common_pods
+  #common_pods
   # Pods for OpenGLTest
 
 end

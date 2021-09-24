@@ -45,9 +45,12 @@ public:
     void initTextRender();
     // direction: 字符排版方向，默认为横排
     void renderText(std::string text, glm::vec3 pos, glm::vec3 color, glm::vec3 direction = glm::vec3(1, 0, 0));
-    void renderText(Text * text, glm::vec3 pos, glm::vec3 direction = glm::vec3(1, 0, 1));
+    void renderSDFText(Text * text, glm::vec3 pos, glm::vec3 fontColor, glm::vec3 outlineColor, glm::vec3 direction = glm::vec3(1, 0, 1));
     void setFontTexture(const char * fontPath);
     void setImageTexture(const char * imagePath, unsigned int &texture);
+    
+public:
+    const static int Font_Pixel_Size = 200;
 
 private:
     /*
@@ -62,6 +65,7 @@ private:
     Shader * shader;
     
     std::map<GLchar, Character> Characters;
+    
 };
 
 

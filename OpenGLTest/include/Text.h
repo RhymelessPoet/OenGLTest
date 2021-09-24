@@ -17,7 +17,7 @@
 #include "glm.hpp"
 
 struct chars{
-    char ch;
+    char32_t ch;
     GLuint textureID;
 };
 

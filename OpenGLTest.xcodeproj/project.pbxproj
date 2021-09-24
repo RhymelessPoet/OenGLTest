@@ -11,7 +11,8 @@
 		1564AB4B26C1337500CB52B4 /* libz.1.2.11.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1564AB4A26C1337500CB52B4 /* libz.1.2.11.tbd */; };
 		1564AB4D26C1338600CB52B4 /* PN548_API.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1564AB4C26C1338600CB52B4 /* PN548_API.tbd */; };
 		1564ACD026C14CA400CB52B4 /* glm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1564AC1326C14CA400CB52B4 /* glm.cpp */; };
-		15C4025D26EB591000B48F25 /* libfreetyped.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C4025A26EB590200B48F25 /* libfreetyped.a */; };
+		15C403F226EC8A0300B48F25 /* std_image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EE8F5426BFE0A0008F8DE0 /* std_image.cpp */; };
+		15C4043926F1A7DA00B48F25 /* libfreetyped.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C4043826F1A7CC00B48F25 /* libfreetyped.a */; };
 		15EE8F0F26BB928A008F8DE0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EE8F0E26BB928A008F8DE0 /* main.cpp */; };
 		15EE8F1726BBAF11008F8DE0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EE8F1626BBAF11008F8DE0 /* OpenGL.framework */; };
 		15EE8F1D26BBB261008F8DE0 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 15EE8F1C26BBB261008F8DE0 /* glad.c */; };
@@ -21,23 +22,21 @@
 		15EE8F3526BBCEDE008F8DE0 /* libglfw.3.3.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 15EE8F3326BBCEDE008F8DE0 /* libglfw.3.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		15EE8F3926BBFF4B008F8DE0 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EE8F3726BBFF4B008F8DE0 /* Engine.cpp */; };
 		15EE8F4826BD1476008F8DE0 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EE8F4626BD1476008F8DE0 /* Shader.cpp */; };
-		15EE8F5626BFE0A0008F8DE0 /* std_image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EE8F5426BFE0A0008F8DE0 /* std_image.cpp */; };
-		F9C454D571671911A970F472 /* libPods-OpenGLTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 177AD410481439A34DF0CAAE /* libPods-OpenGLTest.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		15C4025926EB590200B48F25 /* PBXContainerItemProxy */ = {
+		15C4043726F1A7CC00B48F25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 15C4025126EB590200B48F25 /* freetype.xcodeproj */;
+			containerPortal = 15C4042F26F1A7CC00B48F25 /* freetype.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1728421174754EA98102F208;
+			remoteGlobalIDString = 77C9BC7C160B4EEF84A3A1B5;
 			remoteInfo = freetype;
 		};
-		15C4025B26EB590700B48F25 /* PBXContainerItemProxy */ = {
+		15C4043A26F1A7E200B48F25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 15C4025126EB590200B48F25 /* freetype.xcodeproj */;
+			containerPortal = 15C4042F26F1A7CC00B48F25 /* freetype.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 3E5DB5D1FED9425690F74259;
+			remoteGlobalIDString = EE2CA6E48A7A4714A2B36D2A;
 			remoteInfo = freetype;
 		};
 /* End PBXContainerItemProxy section */
@@ -457,7 +456,9 @@
 		1564ACCF26C14CA400CB52B4 /* type_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_aligned.hpp; sourceTree = "<group>"; };
 		1564ACD126C1690F00CB52B4 /* LearnOpGL_TextRender_vs */ = {isa = PBXFileReference; lastKnownFileType = text; path = LearnOpGL_TextRender_vs; sourceTree = "<group>"; };
 		1564ACD226C16B2600CB52B4 /* LearnOpGL_TextRender_fs */ = {isa = PBXFileReference; lastKnownFileType = text; path = LearnOpGL_TextRender_fs; sourceTree = "<group>"; };
-		15C4025126EB590200B48F25 /* freetype.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = freetype.xcodeproj; path = "../freetype-2.11.0/build/freetype.xcodeproj"; sourceTree = "<group>"; };
+		15C4025F26EC86AC00B48F25 /* stb_image_resize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image_resize.h; sourceTree = "<group>"; };
+		15C4026426EC86B200B48F25 /* stb_image_write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image_write.h; sourceTree = "<group>"; };
+		15C4042F26F1A7CC00B48F25 /* freetype.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = freetype.xcodeproj; path = "../freetype-2.11.0/build/freetype.xcodeproj"; sourceTree = "<group>"; };
 		15EE8F0B26BB928A008F8DE0 /* OpenGLTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenGLTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EE8F0E26BB928A008F8DE0 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		15EE8F1626BBAF11008F8DE0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -489,11 +490,10 @@
 			files = (
 				1564AB4D26C1338600CB52B4 /* PN548_API.tbd in Frameworks */,
 				1564AB4B26C1337500CB52B4 /* libz.1.2.11.tbd in Frameworks */,
-				15C4025D26EB591000B48F25 /* libfreetyped.a in Frameworks */,
+				15C4043926F1A7DA00B48F25 /* libfreetyped.a in Frameworks */,
 				15EE8F3426BBCEDE008F8DE0 /* libglfw.3.3.dylib in Frameworks */,
 				15EE8F1726BBAF11008F8DE0 /* OpenGL.framework in Frameworks */,
 				15EE8F3126BBCE8D008F8DE0 /* libGLEW.2.2.0.dylib in Frameworks */,
-				F9C454D571671911A970F472 /* libPods-OpenGLTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,10 +927,10 @@
 			path = gtx;
 			sourceTree = "<group>";
 		};
-		15C4025226EB590200B48F25 /* Products */ = {
+		15C4043026F1A7CC00B48F25 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				15C4025A26EB590200B48F25 /* libfreetyped.a */,
+				15C4043826F1A7CC00B48F25 /* libfreetyped.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -938,7 +938,7 @@
 		15EE8F0226BB928A008F8DE0 = {
 			isa = PBXGroup;
 			children = (
-				15C4025126EB590200B48F25 /* freetype.xcodeproj */,
+				15C4042F26F1A7CC00B48F25 /* freetype.xcodeproj */,
 				15EE8F0D26BB928A008F8DE0 /* OpenGLTest */,
 				15EE8F0C26BB928A008F8DE0 /* Products */,
 				15EE8F1526BBAF11008F8DE0 /* Frameworks */,
@@ -989,6 +989,8 @@
 				1564AB4E26C14CA300CB52B4 /* glm */,
 				15EE8F3626BBF456008F8DE0 /* Engine.h */,
 				15EE8F3C26BD035A008F8DE0 /* Shader.h */,
+				15C4026426EC86B200B48F25 /* stb_image_write.h */,
+				15C4025F26EC86AC00B48F25 /* stb_image_resize.h */,
 				15EE8F5826C0C53A008F8DE0 /* stb_image.h */,
 			);
 			path = include;
@@ -1055,7 +1057,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				15C4025C26EB590700B48F25 /* PBXTargetDependency */,
+				15C4043B26F1A7E200B48F25 /* PBXTargetDependency */,
 			);
 			name = OpenGLTest;
 			productName = OpenGLTest;
@@ -1088,8 +1090,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 15C4025226EB590200B48F25 /* Products */;
-					ProjectRef = 15C4025126EB590200B48F25 /* freetype.xcodeproj */;
+					ProductGroup = 15C4043026F1A7CC00B48F25 /* Products */;
+					ProjectRef = 15C4042F26F1A7CC00B48F25 /* freetype.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1100,11 +1102,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		15C4025A26EB590200B48F25 /* libfreetyped.a */ = {
+		15C4043826F1A7CC00B48F25 /* libfreetyped.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libfreetyped.a;
-			remoteRef = 15C4025926EB590200B48F25 /* PBXContainerItemProxy */;
+			remoteRef = 15C4043726F1A7CC00B48F25 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1139,8 +1141,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15C403F226EC8A0300B48F25 /* std_image.cpp in Sources */,
 				1564ACD026C14CA400CB52B4 /* glm.cpp in Sources */,
-				15EE8F5626BFE0A0008F8DE0 /* std_image.cpp in Sources */,
 				15EE8F0F26BB928A008F8DE0 /* main.cpp in Sources */,
 				15EE8F3926BBFF4B008F8DE0 /* Engine.cpp in Sources */,
 				154B47EA26CA4737009118CF /* Text.cpp in Sources */,
@@ -1152,10 +1154,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		15C4025C26EB590700B48F25 /* PBXTargetDependency */ = {
+		15C4043B26F1A7E200B48F25 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = freetype;
-			targetProxy = 15C4025B26EB590700B48F25 /* PBXContainerItemProxy */;
+			targetProxy = 15C4043A26F1A7E200B48F25 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1292,7 +1294,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.4/lib,
 					/usr/local/Cellar/glew/2.2.0_1/lib,
-					/Users/fugui/Documents/Learning/code/OpenGL,
+					"/Users/fugui/Documents/Learning/code/OpenGL/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -1320,7 +1322,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.4/lib,
 					/usr/local/Cellar/glew/2.2.0_1/lib,
-					/Users/fugui/Documents/Learning/code/OpenGL,
+					"/Users/fugui/Documents/Learning/code/OpenGL/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "$(inherited)";
