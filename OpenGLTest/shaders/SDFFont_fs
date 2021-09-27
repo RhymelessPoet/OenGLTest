@@ -3,19 +3,18 @@ out vec4 FragColor;
 
 in vec2 TexCoords;
 
+uniform float ndpp;
 uniform vec3 fontColor;
-uniform vec3 outlineColor;
 uniform sampler2D texTure;
 uniform sampler2D textureColor;
 
 void main()
 {
+    float border = 0.5;
     vec3 color = texture(textureColor, TexCoords).rgb;
     float sd = texture(texTure, TexCoords).r;
-    float font = smoothstep(0.485, 0.5, sd);
-    float outline = smoothstep(0.0, 0.485, sd) - font;
-    vec4 fontColor4f = vec4(fontColor, font);
-    vec4 outlineColor4f = vec4(outlineColor, outline);
-    FragColor = fontColor4f * step(0.01, font) + outlineColor4f * step(0.001, outline) + vec4(0.1,0.1,0.1,0.1);
+    float fontAlpha = smoothstep(border - ndpp, border + ndpp, sd);
+    vec4 fontColor4f = vec4(fontColor, fontAlpha);
+    FragColor = fontColor4f;
 }
 

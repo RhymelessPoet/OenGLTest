@@ -71,20 +71,20 @@ int main()
 //        };
 
     const char * vertexShaderPath = "shaders/LearnOpGL_TextRender_vs";
-    const char * fragShaderPath = "shaders/SDFFont_fs";
+    const char * fragShaderPath = "shaders/SDFFont_Outline_fs";
     Shader * shader = new Shader(vertexShaderPath, fragShaderPath, NULL);
     
     Engine * engine = new Engine(shader);
     engine->init(NULL);
     
-    engine->setFontTexture("resources/hongmengti.ttf");
+    engine->setFontTexture("resources/55555.ttf");
     engine->initTextRender();
     
     unsigned int textTexture;
 //    engine->setImageTexture("resources/awesomeface.png", textTexture);
     engine->setImageTexture("resources/container.jpg", textTexture);
     
-    Text * text = new Text(U"这是中文");
+    Text * text = new Text(U"a买这是中文");
     text->setTextureAll(textTexture);
     
     /* ---------------------------- Render Looping -------------------------------- */
@@ -96,7 +96,7 @@ int main()
         
         //process the input from .....
         processInput(window);
-        glClearColor(1.0f, 1.0f, 0.9f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //engine->render(GL_TRIANGLES, vertices, sizeof(vertices), indices, sizeof(indices), texture);
         
@@ -105,7 +105,7 @@ int main()
 //        engine->renderText("3.141592653 is PI", glm::vec3(800.0f, 200.0f, 0.5f), glm::vec3(1.0f, 0.5f, 0.1f), glm::vec3(1.0, 0.0, 1.0));
 //        engine->renderText("The water of the Yellow River comes from the sky.", glm::vec3(10.0f, 350.0f, 0.5f), glm::vec3(.0f, 0.1f, 1.0f), glm::vec3(1.0, -1.0, 1.0));
         
-        engine->renderSDFText(text, glm::vec3(10.0f, 100.0f, 100.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        engine->renderSDFText(text, glm::vec3(10.0f, 100.0f, 600.0f), glm::vec4(0.2f, 0.6f, 0.9f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         
         //update window screen
         glfwSwapBuffers(window);

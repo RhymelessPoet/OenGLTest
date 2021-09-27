@@ -113,6 +113,12 @@ void Shader::setUniform(const std::string &name, glm::vec3 value)
     glUniform3f(uniformID, value.x, value.y, value.z);
 }
 
+void Shader::setUniform(const std::string &name, glm::vec4 value)
+{
+    unsigned int uniformID = glGetUniformLocation(shaderProgram, name.c_str());
+    glUniform4f(uniformID, value.x, value.y, value.z, value.a);
+}
+
 void Shader::setUniform(const std::string &name, glm::mat4 value)
 {
     unsigned int uniformID = glGetUniformLocation(shaderProgram, name.c_str());

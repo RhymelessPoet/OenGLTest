@@ -1,0 +1,79 @@
+#version 330 core
+out vec4 FragColor;
+
+in vec2 TexCoords;
+
+uniform float ndpp;
+uniform vec4 fontColor;
+uniform vec3 outlineColors[3];
+uniform vec4 outlineParams[3];
+uniform sampler2D texTure;
+uniform sampler2D textureColor;
+
+float interpolate2D(float minX, float maxX, float minY, float maxY, float x)
+{
+    float k = (maxY - minY) / (maxX - minX);
+    return k * (x - minX) + minY;
+}
+
+float sigmoid(float minX, float maxX, float a, float t)
+{
+    float x = (t - minX) / (maxX - minX);
+    float x_1 = step(x, 0.5);
+    return x_1 * (pow(2, a - 1.0) * pow(x, a)) + (1.0 - x_1) * (1.0 - pow(2.0 - (x * 2.0), a) / 2.0);
+}
+
+float normalMapTo(float a, float b, float x)
+{
+    float scale = b - a;
+    return x * scale + a;
+}
+
+float getOutlineAlpha(float start, int index, float sd)
+{
+     vec4 param = outlineParams[index];
+     float end = start - param.r * ndpp;
+     float startAlpha = param.g;
+     float endAlpha = param.b;
+     float speed = param.a;
+     
+     float sAlpha = interpolate2D(start, end, startAlpha, endAlpha, sd);
+     
+     float minAlpha = min(startAlpha, endAlpha);
+     float maxAlpha = max(startAlpha, endAlpha);
+     
+     //float uAlpha = smoothstep(minAlpha, maxAlpha, sAlpha);
+     
+     float spx = speed;
+     float uAlpha = sigmoid(minAlpha, maxAlpha, spx, sAlpha);
+     uAlpha = normalMapTo(minAlpha, maxAlpha, uAlpha);
+     
+     float sBorderAlpha = smoothstep(0.5 - ndpp, 0.5 + ndpp, start - sd + 0.5) - step(0.5 + ndpp, start - sd + 0.5);
+     float eBorderAlpha = smoothstep(end - ndpp, ndpp + end, sd) - step(ndpp + end, sd);
+     float outlineAlpha = step(0.0, sd - (end + ndpp)) * step(0.0, (start - ndpp) - sd) * uAlpha;
+     
+     return outlineAlpha + step(0.0000001, param.r) * (eBorderAlpha * endAlpha + sBorderAlpha * startAlpha);
+}
+
+void main()
+{
+    float border = 0.5;
+    vec3 color = texture(textureColor, TexCoords).rgb;
+    float sd = texture(texTure, TexCoords).r;
+    float fontAlpha = smoothstep(border - ndpp, border + ndpp, sd);
+    vec4 fontColor4f = vec4(fontColor.rgb, fontColor.a * fontAlpha);
+    
+    float outStart0, outStart1, outStart2;
+    outStart0 = border;
+    outStart1 = outStart0 - outlineParams[0].x * ndpp;
+    outStart2 = outStart1 - outlineParams[1].x * ndpp;
+    
+    float outlineAlpha0 = getOutlineAlpha(outStart0, 0, sd);
+    float outlineAlpha1 = getOutlineAlpha(outStart1, 1, sd);
+    float outlineAlpha2 = getOutlineAlpha(outStart2, 2, sd);
+    
+    FragColor.rgb = fontColor4f.rgb * fontColor4f.a + outlineColors[0] * outlineAlpha0 + outlineColors[1] * outlineAlpha1 + outlineColors[2] * outlineAlpha2;
+    FragColor.a = fontColor4f.a + outlineAlpha0 + outlineAlpha1 + outlineAlpha2;
+}
+
+

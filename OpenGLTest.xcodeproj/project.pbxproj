@@ -456,6 +456,10 @@
 		1564ACCF26C14CA400CB52B4 /* type_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_aligned.hpp; sourceTree = "<group>"; };
 		1564ACD126C1690F00CB52B4 /* LearnOpGL_TextRender_vs */ = {isa = PBXFileReference; lastKnownFileType = text; path = LearnOpGL_TextRender_vs; sourceTree = "<group>"; };
 		1564ACD226C16B2600CB52B4 /* LearnOpGL_TextRender_fs */ = {isa = PBXFileReference; lastKnownFileType = text; path = LearnOpGL_TextRender_fs; sourceTree = "<group>"; };
+		159CDD5E26FDF68F00FB8160 /* SDFFont_Outline_fs */ = {isa = PBXFileReference; lastKnownFileType = text; path = SDFFont_Outline_fs; sourceTree = "<group>"; };
+		159CDD5F26FDF78D00FB8160 /* benmojinhei0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = benmojinhei0.ttf; sourceTree = "<group>"; };
+		159CDD6026FDFA0900FB8160 /* 55555.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 55555.ttf; sourceTree = "<group>"; };
+		159CDD612700264500FB8160 /* Shader_Math_Fuction */ = {isa = PBXFileReference; lastKnownFileType = text; path = Shader_Math_Fuction; sourceTree = "<group>"; };
 		15C4025F26EC86AC00B48F25 /* stb_image_resize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image_resize.h; sourceTree = "<group>"; };
 		15C4026426EC86B200B48F25 /* stb_image_write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image_write.h; sourceTree = "<group>"; };
 		15C4042F26F1A7CC00B48F25 /* freetype.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = freetype.xcodeproj; path = "../freetype-2.11.0/build/freetype.xcodeproj"; sourceTree = "<group>"; };
@@ -1017,6 +1021,8 @@
 				1564ACD126C1690F00CB52B4 /* LearnOpGL_TextRender_vs */,
 				1564ACD226C16B2600CB52B4 /* LearnOpGL_TextRender_fs */,
 				15466F7926E9DF380011F57F /* SDFFont_fs */,
+				159CDD5E26FDF68F00FB8160 /* SDFFont_Outline_fs */,
+				159CDD612700264500FB8160 /* Shader_Math_Fuction */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -1024,6 +1030,8 @@
 		15EE8F5326BFDD84008F8DE0 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				159CDD6026FDFA0900FB8160 /* 55555.ttf */,
+				159CDD5F26FDF78D00FB8160 /* benmojinhei0.ttf */,
 				154B47EB26CA8614009118CF /* awesomeface.png */,
 				154673E526EB2D530011F57F /* hongmengti.ttf */,
 				15EE8F5D26C10E7B008F8DE0 /* benmojinhei.ttf */,

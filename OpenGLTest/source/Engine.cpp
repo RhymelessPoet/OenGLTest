@@ -102,11 +102,11 @@ void Engine::setFontTexture(const char *fontPath)
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
     // set size to load glyphs as
     
-    FT_Set_Pixel_Sizes(face, 0, 200);
+    FT_Set_Pixel_Sizes(face, 0, Font_Pixel_Size);
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // 禁用字节对齐限制
     
-    std::u32string chars = U"!这是中文";
+    std::u32string chars = U"!a这是中文买";
     wchar_t c;
     for(uint32_t i = 0; i < chars.size(); i++)
     {
@@ -116,7 +116,7 @@ void Engine::setFontTexture(const char *fontPath)
         std::cout << i << ": " << buffer << std::endl;
         std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
         // 加载字符的字形 glyph
-        if(FT_Load_Char(face, c, FT_LOAD_NO_BITMAP))
+        if(FT_Load_Char(face, c, FT_LOAD_RENDER))
         {
             std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
@@ -183,12 +183,40 @@ void Engine::initTextRender()
 
 
 
-void Engine::renderSDFText(Text * text, glm::vec3 pos, glm::vec3 fontColor, glm::vec3 outlineColor, glm::vec3 direction)
+void Engine::renderSDFText(Text * text, glm::vec3 pos, glm::vec4 fontColor, glm::vec3 direction)
 {
-    shader->useShaderProgram();
+    const float max_speed = 4;
+    const int border_size = 16; // SDF Border Size is 8 px
+    GLfloat scale = pos.z / Font_Pixel_Size;
+    const float NDPP = 0.5f / (scale * border_size); // Normalized Distance per Pixel
+    float w = 47.0f;
+    float timeValue = glfwGetTime();
+    float Time = max_speed * (sin(timeValue / 2.5f));
+    float speed = 1.50f;
+//    if(Time >= 1.0){
+//        speed *= Time;
+//    } else if(Time <= -1.0){
+//        speed /= (0.0f - Time);
+//    } else {
+//        speed *= 1.0;
+//    }
+    glm::vec3 outlineColors[3] = {glm::vec3(0.5f, 0.9f, 0.9f), glm::vec3(0.5f, 0.9f, 0.9f), glm::vec3(0.9f, 0.9f, 0.1f)};
+//    glm::vec3 fontColorRGB = glm::vec3(fontColor.r, fontColor.g, fontColor.b);
+//    glm::vec3 outlineColors[3] = {fontColorRGB, fontColorRGB, fontColorRGB};
+    glm::vec4 outlineParams[3] = {glm::vec4(13.0f, 1.0f, 0.5f, speed), glm::vec4(40.0f, 0.5f, 0.0f, 1.0), glm::vec4(0.0f, 1.0f, 1.0f, 0.0f)};
     
+    shader->useShaderProgram();
     shader->setUniform("fontColor", fontColor);
-    shader->setUniform("outlineColor", outlineColor);
+    
+    for(int i = 0; i < 3; i++){
+        std::string colorName = "outlineColors[" + std::to_string(i) + "]";
+        shader->setUniform(colorName, outlineColors[i]);
+        
+        std::string paramName = "outlineParams[" + std::to_string(i) + "]";
+        shader->setUniform(paramName, outlineParams[i]);
+    }
+    
+    shader->setUniform("ndpp", NDPP);
     
     shader->setUniform("texTure", 0);
     shader->setUniform("textureColor", 1);
@@ -203,7 +231,10 @@ void Engine::renderSDFText(Text * text, glm::vec3 pos, glm::vec3 fontColor, glm:
         chars c = text->getNext();
         Character ch = Characters[c.ch];
         
-        GLfloat scale = pos.z;
+        if(Font_Pixel_Size == 0){
+            printf("Font_Pixel_Size equals to ZERO");
+            return;
+        }
         GLfloat xpos = pos.x + ch.Bearing.x * scale;
         GLfloat ypos = pos.y - (ch.Size.y - ch.Bearing.y) * scale;
         

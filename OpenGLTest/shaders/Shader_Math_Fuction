@@ -1,0 +1,40 @@
+vec3 solveQuadParabola(vec2 p0, vec2 p1, float k2)
+{
+    float h = p1.y - p0.y;
+    float w = p1.x - p0.x;
+    float K = h / w;
+    float a = (k2 - K) / w;
+    float b = K - a * (p0.x + p1.x);
+    float c = p0.y - a * pow(p0.x, 2) - b * p0.x;
+    return vec3(a, b, c);
+}
+
+float quadParabola(vec3 p, float sd)
+{
+    return p.x * pow(sd, 2) + p.y * sd + p.z;
+}
+
+float sigmoid(float x, float a)
+{
+    float x_1 = step(x, 0.5);
+    return x_1 * (pow(x * 2.0, a) / 2.0) + (1.0 - x_1) * (1.0 - pow(2.0 - (x * 2.0), a) / 2.0);
+}
+
+float sigmoid(float minX, float maxX, float a, float t)
+{
+    float x = (t - minX) / (maxX - minX);
+    float x_1 = step(x, 0.5);
+    return x_1 * (pow(x * 2.0, a) / 2.0) + (1.0 - x_1) * (1.0 - pow(2.0 - (x * 2.0), a) / 2.0);
+}
+
+float smoothstep(float a, float b, float x)
+{
+    float t = (x - a) / (b - a);
+    return 3 * t * t - 2 * t * t * t;
+}
+// 0~1 => a~b
+float normalMapTo(float a, float b, float x)
+{
+    float scale = b - a;
+    return x * scale + a;
+}
