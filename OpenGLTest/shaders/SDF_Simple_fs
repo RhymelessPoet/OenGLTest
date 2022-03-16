@@ -1,0 +1,38 @@
+#version 330 core
+in vec2 TexCoords;
+out vec4 FragColor;
+
+const float Border = 0.5;
+const int NoOutline = 3;
+const int NoInline = 3;
+
+uniform float ndpp;
+uniform vec4 fontColor;
+uniform vec3 outlineColors[NoOutline];
+uniform vec4 outlineParams[NoOutline];
+uniform sampler2D texTure;
+uniform sampler2D textureColor;
+
+void main()
+{
+    float sd = texture(texTure, TexCoords).r;
+    //Font
+    float fontAlpha = smoothstep(Border - ndpp, Border + ndpp, sd);
+    vec4 fontColor4f = vec4(fontColor.rgb * fontAlpha, fontColor.a * fontAlpha);
+
+    //outline
+    float end = Border - ndpp * outlineParams[0].x;
+    float sBorderAlpha = smoothstep(Border - ndpp, Border + ndpp, Border - sd + Border) - step(Border + ndpp, Border - sd + Border);
+    float eBorderAlpha = smoothstep(end - ndpp, ndpp + end, sd) - step(ndpp + end, sd);
+    float outlineAlpha = step(0.0, sd - (end + ndpp)) * step(0.0, (Border - ndpp) - sd);
+
+    outlineAlpha += step(0.01, outlineParams[0].x) * (eBorderAlpha + sBorderAlpha);
+    vec4 outlineColor4f = vec4(outlineColors[0].rgb * outlineAlpha, outlineAlpha);
+    
+    
+
+    FragColor = fontColor4f + outlineColor4f;
+}
+
+
+

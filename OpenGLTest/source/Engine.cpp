@@ -106,7 +106,7 @@ void Engine::setFontTexture(const char *fontPath)
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // 禁用字节对齐限制
     
-    std::u32string chars = U"!a这是中文买";
+    std::u32string chars = U"!米哦a这是中文买";
     wchar_t c;
     for(uint32_t i = 0; i < chars.size(); i++)
     {
@@ -183,27 +183,34 @@ void Engine::initTextRender()
 
 
 
-void Engine::renderSDFText(Text * text, glm::vec3 pos, glm::vec4 fontColor, glm::vec3 direction)
+void Engine::renderSDFText(Text * text, glm::vec3 pos, glm::vec4 fontColor, glm::vec3 direction, bool isShadow)
 {
     const float max_speed = 4;
-    const int border_size = 16; // SDF Border Size is 8 px
+    const int border_size = 16; // SDF Border Size is 16 px
     GLfloat scale = pos.z / Font_Pixel_Size;
     const float NDPP = 0.5f / (scale * border_size); // Normalized Distance per Pixel
-    float w = 47.0f;
+    float w = 15.0f;
     float timeValue = glfwGetTime();
     float Time = max_speed * (sin(timeValue / 2.5f));
-    float speed = 1.50f;
-//    if(Time >= 1.0){
-//        speed *= Time;
-//    } else if(Time <= -1.0){
-//        speed /= (0.0f - Time);
-//    } else {
-//        speed *= 1.0;
-//    }
-    glm::vec3 outlineColors[3] = {glm::vec3(0.5f, 0.9f, 0.9f), glm::vec3(0.5f, 0.9f, 0.9f), glm::vec3(0.9f, 0.9f, 0.1f)};
-//    glm::vec3 fontColorRGB = glm::vec3(fontColor.r, fontColor.g, fontColor.b);
-//    glm::vec3 outlineColors[3] = {fontColorRGB, fontColorRGB, fontColorRGB};
-    glm::vec4 outlineParams[3] = {glm::vec4(13.0f, 1.0f, 0.5f, speed), glm::vec4(40.0f, 0.5f, 0.0f, 1.0), glm::vec4(0.0f, 1.0f, 1.0f, 0.0f)};
+    glm::vec3 outlineColors[3] = {};
+    glm::vec4 outlineParams[3] = {};
+    if(isShadow){
+        glm::vec3 fontColorRGB = glm::vec3(fontColor.r, fontColor.g, fontColor.b);
+        outlineColors[0] = fontColorRGB;
+        outlineColors[1] = fontColorRGB;
+        outlineColors[2] = fontColorRGB;
+        outlineParams[0] = glm::vec4(31.0f, 1.0f, 0.0f, 1.0f);
+        outlineParams[1] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0);
+        outlineParams[2] = glm::vec4(0.0f, 1.0f, 1.0f, 0.0f);
+    } else {
+        outlineColors[0] = glm::vec3(1.0f, 1.0f, 1.0f);
+        outlineColors[1] = glm::vec3(0.5f, 0.9f, 0.9f);
+        outlineColors[2] = glm::vec3(0.9f, 0.9f, 0.1f);
+        outlineParams[0] = glm::vec4(31.0f, 1.0f, 1.0f, 1.0f);
+        outlineParams[1] = glm::vec4(0.0f, 1.0f, 1.0f, 1.0);
+        outlineParams[2] = glm::vec4(0.0f, 1.0f, 1.0f, 0.0f);
+    }
+    
     
     shader->useShaderProgram();
     shader->setUniform("fontColor", fontColor);
